@@ -1,7 +1,5 @@
 .ipynb_checkpoints/
-.dataset/
 .gemma-2-2b-it/
 .gemma-lora/
-.dataset.csv
-gemma-2-2b-it/
-gemma-lora/
+dataset.csv
+
