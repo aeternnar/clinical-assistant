@@ -1,1 +1,4 @@
 .ipynb_checkpoints/
+.dataset/
+.gemma-2b/
+.gemma-lora/
