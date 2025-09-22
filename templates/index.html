@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gemma Medical QA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+    }
+    .card {
+      border-radius: 1rem;
+    }
+    .form-label {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    .form-control {
+      font-size: 1.1rem;
+      padding: 0.75rem 1rem;
+    }
+    button {
+      font-size: 1.1rem;
+      padding: 0.6rem 1.2rem;
+    }
+    #answer-card {
+      border-radius: 1rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #cce5ff, #99ccff);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    #answer-card.new-answer {
+      transform: scale(1.02);
+      background: linear-gradient(135deg, #99ccff, #66b2ff);
+    }
+    #answer {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #003366;
+      min-height: 80px;
+      transition: opacity 0.4s ease;
+      opacity: 0;
+    }
+    #answer.visible {
+      opacity: 1;
+    }
+    #answer.waiting {
+      color: #004085; /* синий цвет для ожидания */
+      font-style: italic;
+      opacity: 1;
+    }
+    .disclaimer {
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <h1 class="mb-4 text-center">Gemma Medical QA</h1>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="mb-3">
+        <label for="question" class="form-label">Enter your medical question</label>
+        <input type="text" id="question" class="form-control" placeholder="For example: How to reduce fever?">
+      </div>
+      <button class="btn btn-primary w-100" onclick="ask()">Ask</button>
+      <p class="disclaimer mt-2 text-center">
+        This model provides medical information for educational purposes only. It cannot be relied upon as a definitive source. Always consult a healthcare professional.
+      </p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm" id="answer-card">
+    <div class="card-body">
+      <h5 class="card-title">Answer</h5>
+      <p id="answer" class="card-text text-muted">The model's answer will appear here.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function ask() {
+    const q = document.getElementById("question").value;
+    const answerEl = document.getElementById("answer");
+    const cardEl = document.getElementById("answer-card");
+
+    answerEl.className = "card-text waiting";
+    answerEl.innerText = "Waiting for answer...";
+    cardEl.classList.remove("new-answer");
+
+    try {
+      const resp = await fetch("http://127.0.0.1:8000/ask", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({question: q})
+      });
+      const data = await resp.json();
+
+      answerEl.innerText = data.answer;
+      answerEl.className = "card-text visible";
+      cardEl.classList.add("new-answer");
+
+    } catch (err) {
+      answerEl.className = "card-text waiting";
+      answerEl.innerText = "Error fetching answer.";
+      console.error(err);
+    }
+  }
+</script>
+
+</body>
+</html>
