@@ -1,5 +1,8 @@
 .ipynb_checkpoints/
-dataset.csv
+.idea/
 gemma-2-2b-it/
 gemma-lora/
+__pycache__/
+dataset.csv
+
 
