@@ -48,7 +48,7 @@ def ask(query: Query):
             **inputs,
             max_new_tokens=128,
             do_sample=True,
-            temperature=0.6,
+            temperature=0.2,
             pad_token_id=tokenizer.eos_token_id
         )
 
