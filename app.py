@@ -5,21 +5,32 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
+from fastapi.middleware.cors import CORSMiddleware
 import torch
 
-base_model_path = "./gemma-2-2b-it"
-lora_path = "./gemma-lora/checkpoint-2600"
+base_model_name = "aeternnar/gemma-2-2B-full"
+lora_model_name = "aeternnar/gemma-2-2B-clinical-assistant-peft"
 
-tokenizer = AutoTokenizer.from_pretrained(base_model_path)
-model = AutoModelForCausalLM.from_pretrained(
-    base_model_path,
+tokenizer = AutoTokenizer.from_pretrained(base_model_name)
+base_model = AutoModelForCausalLM.from_pretrained(
+    base_model_name,
     device_map="auto",
     torch_dtype=torch.float16
 )
-model = PeftModel.from_pretrained(model, lora_path)
+
+model = PeftModel.from_pretrained(base_model, lora_model_name)
 model.eval()
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Или укажи адрес фронтенда, например "http://localhost:3000"
+    allow_credentials=True,
+    allow_methods=["*"],  # Позволяет GET, POST, OPTIONS и др.
+    allow_headers=["*"],
+)
+
 templates = Jinja2Templates(directory="templates")
 
 
