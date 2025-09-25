@@ -1,5 +1,6 @@
 .ipynb_checkpoints/
 .idea/
+.venv/
 gemma-2-2b-it/
 gemma-lora/
 __pycache__/
