@@ -71,7 +71,7 @@ Common blood pressure medicines include ACE inhibitors, angiotensin-2 receptor b
 #### 1. Клонирование репозитория
 
 ```bash
-git clone <URL_репозитория>
+git clone https://github.com/aeternnar/nlp-clinical-assistant
 cd nlp-clinical-assistant
 ```
 
