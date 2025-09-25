@@ -63,5 +63,74 @@ Common blood pressure medicines include ACE inhibitors, angiotensin-2 receptor b
 
 Модель показывает умеренное совпадение с эталонными ответами по метрикам BLEU и ROUGE, что объясняется вариативностью формулировок в естественном языке, при этом высокие значения BERTScore подтверждают, что ответы ассистента сохраняют смысловую близость к референсу, что особенно важно в медицинском контексте.
 
-### Примеры работы
+## Примеры работы
 ![QA](assets/test_gif.gif)
+
+## Руководство по запуску
+
+#### 1. Клонирование репозитория
+
+```bash
+git clone <URL_репозитория>
+cd nlp-clinical-assistant
+```
+
+---
+
+#### 2. Создание виртуального окружения (опционально)
+
+Рекомендуется использовать виртуальное окружение, чтобы изолировать зависимости проекта.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux / MacOS
+.venv\Scripts\activate     # Windows
+```
+
+---
+
+#### 3. Установка зависимостей
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+---
+
+#### 4. Сборка Docker образа
+
+Если используете Docker, соберите образ:
+
+```bash
+docker build -t nlp-clinical-assistant .
+```
+
+---
+
+#### 5. Запуск приложения
+
+Вариант 1 — через Docker:
+
+```bash
+docker run -it -p 8000:8000 nlp-clinical-assistant
+```
+
+Вариант 2 — локально:
+
+```bash
+source .venv/bin/activate
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+```
+
+---
+
+#### 6. Использование
+
+Откройте браузер и перейдите по адресу:
+
+```
+http://127.0.0.1:8000
+```
+
+На странице будет форма для ввода вопроса.
