@@ -25,9 +25,9 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Или укажи адрес фронтенда, например "http://localhost:3000"
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Позволяет GET, POST, OPTIONS и др.
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
